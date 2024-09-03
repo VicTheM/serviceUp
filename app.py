@@ -1,8 +1,17 @@
 """The main entry point to the flask application"""
-import os
 from flask import Flask, jsonify
+from pymongo import MongoClient
+from config.secrets import MONGODB_USER
+from config.secrets import MONGODB_USER_PASSWORD
+from config.development import *
 
 app = Flask(__name__)
+
+MONGODB_URI = f"mongodb+srv://{MONGODB_USER}:{MONGODB_USER_PASSWORD}@testcluster.njvzz.mongodb.net/?retryWrites=true&w=majority&appName=testCluster"
+client = MongoClient(MONGODB_URI)
+db = client[DATABASE]
+handworkMenCollection = db["handworkMen"]
+userCollection = db["users"]
 
 
 
