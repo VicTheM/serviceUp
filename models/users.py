@@ -6,7 +6,7 @@ class User():
     __numberOfUsers = 0
 
     def __init__(self, name: str, email: str, **kwargs: dict):
-        User.numberOfUsers += 1
+        User.__numberOfUsers += 1
         self.name = name
         self.email = email
 

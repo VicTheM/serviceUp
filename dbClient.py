@@ -17,3 +17,26 @@ class DBClient:
         
         def insertUser(self, user):
             self.userCollection.insert_one(user)
+
+'''
+EXAMPLE OF THE USER DOCUMENT STRUCTURE IN DB
+'''
+Victory = {
+        "name": "Victory Chibuike",
+        "email": "victorychibuike121@gmail.com",
+        "contact": 8104334025,
+        "location": {
+            "country": "Nigeria",
+            "state": "Lagos",
+            "LGA": "Oshodi-Isolo",
+            "LANDMARK": "Community Road",
+            "Street": "Fatai Lawal",
+            "Domain": ["Ago Palace Way", "Okota", "Festac", "Yaba", "Ikoyi"]
+        },
+        "services": ["Electrician", "Electronics Repairer", "House Wiring", "Smart Device Installation"],
+        "numOfStars": 257,
+        "numOfReviews": 1000,
+        "numberOfProfileView": 1311,
+        "numberOfBookings": 1290,
+        "reviews": ["He is a skilled, professional and fururistic worker", "He is very knowledgeable in his work"]
+    }
