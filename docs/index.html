@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html LANG="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="author" content="Victory Chibuike">
+        <meta name="description" content="A website where you cn hire all of your professionals and handiwork men">
+        <title>ServiceUp</title>
+    </head>
+    <body>
+        <noscript>
+            <p>
+                Either Enable Javascript on your browser or use another browser to view this page. This page relies on javascript to work properly and offer you a seamless user experience.
+            </p>
+        </noscript>
+        <header>
+            <!--Navigation elements (within the entire app)-->
+            <nav>
+                <a href="#register">Register</a>
+                <a href="#login">Login</a>
+                <a href="#logout">Logout</a>
+                <a href="about.html">About</a>
+            </nav>
+        </header>
+        <h1>Hire like a pro</h1>
+
+        <!--Infor about the app here-->
+        <section name="information">
+            <p name="elevator">
+                <h2>ServiceUp is a website where you can hire professionals close to you for all sort of services under slim time constraints.</h2>
+            </p>
+        </section>
+
+        <!--All forms, button etc here-->
+        <section name="actions">
+
+            <div name="search-form" id="search">
+                <form id=search-form onsubmit="return handleSearch(event)">
+                    <label for="search-box">Search</label>
+                    <input type="text" id="searchInput" placeholder="eg: Electrician" onkeyup="showSuggestions()" autofocus required>
+                    <div id="suggestions"></div>
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+
+            <div name="others">
+                <div name="login-container" id="login-container">
+                    Login<br>
+                    <form id="login-form" action="/login" method="POST">
+                        <div class="login-form-field">
+                            <input type="email" value="Email">
+                        </div>
+                        <div class="login-form-field">
+                            <input type="text" value="Password">
+                        </div>
+                            <input type="submit" value="Login">
+                    </form>
+                </div>
+                <div name="register" id="register">
+                    Register<br>
+                    <form id="registration-form">
+                        <!--Select either professional or normal user-->
+                        <label for="registration-type">registration-type:</label>
+                        <select id="registration-type">
+                            <option value="user">user</option>
+                            <option value="professional">professional</option>
+                        </select>
+                        <input type="text" placeholder="Firstname" class="registration-form-field" name="Firstname">
+                        <input type="text" placeholder="Lastname" class="registration-form-field" name="Lastname">
+                        <input type="text" placeholder="Username" class="registration-form-field" name="Username">
+                        <input type="email" placeholder="Email" class="registration-form-field">
+                        <input type="password" placeholder="Password" class="registration-form-field">
+                        <input type="tel" placeholder="Contact" class="registration-form-field">
+                        <input type="text" placeholder="State" class="registration-form-field">
+                        <input type="text" placeholder="Area or City">
+                        <input type="text" value="LGA">
+                        <input type="text" value="street and closest bus stop">
+                        <input type="text" value="service (your work)">
+                        <input type="button" value="Register" onclick="register(this.form)">
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Images of different types of handwork sliding from left to right-->
+        <section name="sliding-images">
+            <ul name="services">
+                <li>
+                <figure name="Electrician">
+                    <img src="..static/img/OSIModel.png" alt="Electrician">
+                    <figcaption name="Electrician">Electrician</figcaption>
+                </figure>
+                </li>
+                <li>
+                <figure name="Electronics-repairer">
+                    <img src="..static/img/robotics_intern.jpg" alt="Electronics-repairer">
+                    <figcaption name="Electronics-repairer">Electronics Repairer</figcaption>
+                </figure>
+                </li>
+                <li>Electrician</li>
+                <li>Electronics Repairer</li>
+                <li>Phone repairer</li>
+                <li>Plumber</li>
+                <li>Bricklayer</li>
+                <li>Briader</li>
+            </ul>
+        </section>
+
+        <footer> 
+            <div nam="source">
+                <div name="github-link">website source code: </div>
+            </div>
+        </footer>
+    </body>
+    <script src="..static/js/landing.js"></script>
+</html>
