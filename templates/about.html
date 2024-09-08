@@ -3,15 +3,19 @@
     <meta>
     <head>
         <title>About</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css')}}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css')}}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css')}}"></link>
     </head>
     <body>
         <header>
             <!--Navigation elements (within the entire app)-->
             <nav>
-                <a href="landing.html#register">Register</a>
-                <a href="landing.html#login">Login</a>
-                <a href="landing.html#logout">Logout</a>
-                <a href="landing.html">Home</a>
+                <a href="{{ url_for('landing_page') }}">Home</a>
+                <a href="{{ url_for('landing_page', _anchor='register') }}">Register</a>
+                <a href="{{ url_for('landing_page', _anchor='login') }}">Login</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+                <a href="about.html">About</a>           
             </nav>
         </header>
         <h2>About the app</h2>
@@ -29,8 +33,8 @@
             This website was built as my Capstone project at ALX, but beyond the project, it was also built to server the purpose of it's name - provide a means where people can get professionals on the go<br>
             I am an Electrical and Electronics Engineeering student at the prestiguous University of Lago in Nigeria. I build software systems, ranging from those running on bare metals and microcontrollers using C, to those running on your browser using node.js<br>
         </p>
-        <video src="../img/ouch.mp4"
+        <video src="{{ url_for('static', filename='img/ouch.mp4') }}"
             width="350" height="260" preload="auto" controls
-            poster="../img/robotics_intern.jpg"></video>
+            poster="{{ url_for('static', filename='img/robotics_intern.jpg') }}"></video>
     </body>
 </html>

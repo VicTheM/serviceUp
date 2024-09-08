@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>{{ user.firstname }} {{ user.lastname }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css')}}"></link>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css')}}"></link>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css')}}"></link>
     <style>
-        #successMessage {
+        #successMessage, #hireMessage {
           display: none;
           color: green;
           font-weight: bold;
@@ -24,10 +24,9 @@
             <a href="{{ url_for('landing_page', _anchor='login') }}">Login</a>
             <a href="{{ url_for('logout') }}">Logout</a>
             <a href="about.html">About</a>
-            <!-- edit profile-->
-            <a href="#edit_profile">Edit Profile</a>
         </nav>
     </header>
+
     <div class="container">
         <div class="profile-header">
             <h1>{{ user.firstname }} {{ user.lastname }}</h1>
@@ -35,8 +34,8 @@
         </div>
 
         <div class="profile-info">
-            <p><strong>Email:</strong> {{ user.email }}</p>
-            <p><strong>Contact:</strong> {{ user.contact }}</p>
+            <p><strong>Email:</strong> Hire to see</p>
+            <p><strong>Contact:</strong> Hire to see</p>
             <p><strong>Location:</strong> {{ user.location.street }}, {{ user.location.area_or_city }}, {{ user.location.lga }}, {{ user.location.state }}</p>
             
             <h3>Services</h3>
@@ -59,36 +58,29 @@
             </ul>
         </div>
     </div>
-    <!--feature to enable user to edit profile and send the changed data to backend-->
-    <form id="editProfileForm">
-        <label for="firstname">First Name:</label>
-        <input type="text" id="firstname" name="firstname"><br>
+
+    <!--Review form -->
+    <form id="reviewForm" onsubmit="review('{{ user.email }}')">
+        <label for="review">Review</label>
+        <textarea id="review" name="review" required></textarea>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="reviewSuccess">
+        <h3>Success!</h3>
+        <div>Your review has been submitted</div>
+    </div>
     
-        <label for="lastname">Last Name:</label>
-        <input type="text" id="lastname" name="lastname"><br>
-    
-        <label for="contact">Contact:</label>
-        <input type="text" id="contact" name="contact"><br>
-    
-        <label for="state">State:</label>
-        <input type="text" id="state" name="state"><br>
-    
-        <label for="city">City:</label>
-        <input type="text" id="city" name="city"><br>
-    
-        <label for="lga">LGA:</label>
-        <input type="text" id="lga" name="lga"><br>
-    
-        <label for="street">Street:</label>
-        <input type="text" id="street" name="street"><br>
-    
-        <label for="service">Service:</label>
-        <input type="text" id="service" name="service"><br>
-    
-        <button type="button" onclick="updateProfile('POST')">Submit Changes (POST)</button>
-        <button type="button" onclick="deleteService()">Delete service</button>
-      </form>
-      <p id="successMessage">Profile update successful! Refreshing page...</p>
+    <!-- Hire button -->
+    <button id="hire" onclick="hireProfessional('{{ user.email }}')">Hire</button>
+
+    <!-- Hire Message initially hidden -->
+    <div id="hireMessage">
+        <h3>Success!</h3>
+        <div>Either call or chat at {{ user.contact }} </div>
+        <div>We have sent an email to {{ user.email }} and he should be on his way immediately</div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
 </body>
-<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
 </html>

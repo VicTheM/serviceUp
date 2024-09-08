@@ -4,7 +4,10 @@
         <meta charset="utf-8">
         <meta name="author" content="Victory Chibuike">
         <meta name="description" content="A website where you cn hire all of your professionals and handiwork men">
-        <title>ServiceUp</title>
+        <title>LoggedIn</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css')}}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css')}}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/loggedin_landing.css')}}"></link>
     </head>
     <body>
         <noscript>
@@ -15,9 +18,11 @@
         <header>
             <!--Navigation elements (within the entire app)-->
             <nav>
+                <a href="{{ url_for('landing_page') }}">Home</a>
                 <a href="#register">Register</a>
                 <a href="#login">Login</a>
-                <a href="#logout">Logout</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+                <a href="{{ url_for('profile') }}">Profile</a>
                 <a href="about.html">About</a>
             </nav>
         </header>
@@ -41,6 +46,8 @@
                     <button type="submit">Search</button>
                 </form>
             </div>
+            <div id="results"></div>
+
 
             <div name="others">
                 <div name="login-container" id="login-container">
@@ -55,6 +62,7 @@
                             <input type="submit" value="Login">
                     </form>
                 </div>
+
                 <div name="register" id="register">
                     Register<br>
                     <form id="registration-form">
@@ -86,13 +94,13 @@
             <ul name="services">
                 <li>
                 <figure name="Electrician">
-                    <img src="../static/img/OSIModel.png" alt="Electrician">
+                    <img src="{{ url_for('static', filename='img/OSIModel.png') }}" alt="Electrician">
                     <figcaption name="Electrician">Electrician</figcaption>
                 </figure>
                 </li>
                 <li>
                 <figure name="Electronics-repairer">
-                    <img src="../static/img/robotics_intern.jpg" alt="Electronics-repairer">
+                    <img src="{{ url_for('static', filename='img/robotics_intern.jpg') }}" alt="Electronics-repairer">
                     <figcaption name="Electronics-repairer">Electronics Repairer</figcaption>
                 </figure>
                 </li>
@@ -111,5 +119,5 @@
             </div>
         </footer>
     </body>
-    <script src="../static/js/landing.js"></script>
+    <script src="{{ url_for('static', filename='js/landing.js') }}"></script>
 </html>

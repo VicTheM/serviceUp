@@ -1,4 +1,6 @@
-"""The main entry point to the flask application"""
+"""
+The main entry point to the flask application.
+"""
 from flask import Flask, jsonify, redirect, url_for, render_template, request, session
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -6,8 +8,8 @@ from bson import json_util
 from typing import List, Dict, Any
 from .models.user import User
 from .models.user import Professional
-from config.secrets import *
-from config.development import *
+from .config.secrets import *
+from .config.development import *
 
 app = Flask(__name__)
 
@@ -60,6 +62,7 @@ def register():
         lga = data.get('lga')
         street = data.get('street')
         service = data.get('service')
+        print(service)
 
         # Create Professional object and save to the collection
         new_professional = Professional(
@@ -97,11 +100,11 @@ def login():
     session['email'] = exists.get("email")
     return redirect(url_for('landing_page'))
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout', methods=['POST', 'GET'])
 def logout():
     session.clear()
     # to be handled by the frontend
-    return jsonify({"message": "Logged out successfully"})
+    return render_template('landing.html')
 
 @app.route('/profile', methods=['GET'])
 def profile():
@@ -114,7 +117,7 @@ def profile():
     if "email" in request.args:
         email = request.args.get('email')
         professional = handworkMenCollection.find_one({"email": email})
-        return jsonify(json_util._json_convert(professional))
+        return render_template('professionalProfile.html', user=professional)
     else:
         if "email" in session:
             currentUser = session['email']
@@ -154,7 +157,10 @@ def edit_profile():
         user["location"]["street"] = request.args.get('street')
     if "service" in request.args:
         if request.method == 'DELETE':
-            user["services"].remove(request.args.get('service'))
+            try:
+                user["services"].remove(request.args.get('service'))
+            except Exception as e:
+                pass
         else:
             user["services"].append(request.args.get('service'))
     
@@ -175,13 +181,12 @@ def search():
         return jsonify({"error": "No professional found"}), 404
 
     professionals = list(professionals)
-    for professional in professionals:
-        print(professional)
+    print("The list: ", professionals)
     return jsonify(json_util._json_convert(professionals))
 
 @app.route('/action/hire', methods=['POST'])
 def hire():
-    # Frontend will give the feedback
+    # Frontend will give the feedback.
     # just update the professional hire records in
     # the database
 
@@ -189,13 +194,10 @@ def hire():
     professional = handworkMenCollection.find_one({"email": hired_professional})
     if not professional:
         return jsonify({"error": "Professional not found"}), 404
-    print (f"number of booking before update: {professional["numOfBookings"]}")
     if not "numOfBookings" in professional or professional["numOfBookings"] is None:
         professional["numOfBookings"] = 0
     professional["numOfBookings"] += 1
-    print (f"number of booking before saving: {professional["numOfBookings"]}")
     handworkMenCollection.update_one({"email": hired_professional}, {"$set": {"numOfBookings": professional.get("numOfBookings")}}) # inefficient, rather use a mongo update operator
-    print (f"number of booking after saving: {professional["numOfBookings"]}")
     return jsonify({"message": "Professional hired successfully"})
 
 @app.route('/action/review', methods=['POST'])
@@ -242,6 +244,12 @@ def update_password():
     professional = handworkMenCollection.find_one({"email": session['email']})
     professional["password"] = generate_password_hash(new_password)
     handworkMenCollection.update_one({"email": session['email']}, {"$set": {"password": professional.get("password")}})
+    return jsonify({"message": "Password updated successfully"})
+
+@app.route('/about', methods=['GET'])
+@app.route('/about.html', methods=['GET'])
+def about():
+    return render_template('about.html')
 
 @app.errorhandler(404)
 def page_not_found_error(error):
