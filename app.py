@@ -1,5 +1,5 @@
 """The main entry point to the flask application"""
-from flask import Flask, jsonify, redirect, request, session
+from flask import Flask, abort, jsonify, redirect, url_for, render_template, request, session, 
 from pymongo import MongoClient
 from config.secrets import MONGODB_USER
 from config.secrets import MONGODB_USER_PASSWORD
@@ -18,18 +18,20 @@ userCollection = db["users"]
 # GENERAL ROUTES
 @app.route("/", methods=['GET'])
 def landing_page():
-    """Index page contains search bar, link to register and login
-    and other adverts or news"""
-    # return the html of our main site (not jinja template)
-    return "index page"
+    """Loggedin page has premium css style while logged out page has a basic style"""
+
+    if "username" in session:
+        render_template('landing_logged_in.html')
+    else:
+        render_template("landing.html")
 
 @app.route('/register', methods=['POST'])
 def register():
-    """Register page contains form to register a new user
-    One could either register as a user of as a Professional"""
-    # Frontend will show registration successful pop up
-    # then spit out a copy of the landig page with a different view
-    return "register page"
+    """Receives registration details as a POST parameter.
+    Frontend will handle the data validation before making the request, otherwise abort it"""
+    email = request.
+
+    return redirect(url_for('landing_page'))
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -41,7 +43,7 @@ def login():
     session['username'] = username
 
     # spit out the special landing page for logged in users
-    return "login page"
+    return redirect(url_for('landing_page'))
 
 @app.route('/logout', methods=['POST'])
 def logout():
@@ -92,6 +94,9 @@ def rate():
     # update the rating record
     return "rate page"
 
+@app.errorhandler(404)
+def page_not_found_error(error):
+    return render_template('page_not_found.html'), 404
 
 
 if __name__ == '__main__':
