@@ -64,17 +64,17 @@
                             <option value="user">user</option>
                             <option value="professional">professional</option>
                         </select>
-                        <input type="text" placeholder="Firstname" class="registration-form-field" name="Firstname">
-                        <input type="text" placeholder="Lastname" class="registration-form-field" name="Lastname">
-                        <input type="text" placeholder="Username" class="registration-form-field" name="Username">
-                        <input type="email" placeholder="Email" class="registration-form-field">
-                        <input type="password" placeholder="Password" class="registration-form-field">
-                        <input type="tel" placeholder="Contact" class="registration-form-field">
-                        <input type="text" placeholder="State" class="registration-form-field">
-                        <input type="text" placeholder="Area or City">
-                        <input type="text" value="LGA">
-                        <input type="text" value="street and closest bus stop">
-                        <input type="text" value="service (your work)">
+                        <input type="text" placeholder="Firstname" class="registration-form-field" name="firstname" required>
+                        <input type="text" placeholder="Lastname" class="registration-form-field" name="lastname" required>
+                        <input type="text" placeholder="Username" class="registration-form-field" name="username" required>
+                        <input type="email" placeholder="Email" class="registration-form-field" name="email" required>
+                        <input type="password" placeholder="Password" class="registration-form-field" name="password" required>
+                        <input type="tel" placeholder="Contact" class="registration-form-field" name="contact">
+                        <input type="text" placeholder="State" class="registration-form-field" name="state">
+                        <input type="text" placeholder="Area or City" class="registration-form-field" name="city">
+                        <input type="text" placeholder="LGA" class="registration-form-field" name="lga">
+                        <input type="text" placeholder="street and closest bus stop" class="registration-form-field" name="street">
+                        <input type="text" placeholder="service (your work)" class="registration-form-field" name="service">
                         <input type="button" value="Register" onclick="register(this.form)">
                     </form>
                 </div>
@@ -86,13 +86,13 @@
             <ul name="services">
                 <li>
                 <figure name="Electrician">
-                    <img src="../img/OSIModel.png" alt="Electrician">
+                    <img src="../static/img/OSIModel.png" alt="Electrician">
                     <figcaption name="Electrician">Electrician</figcaption>
                 </figure>
                 </li>
                 <li>
                 <figure name="Electronics-repairer">
-                    <img src="../img/robotics_intern.jpg" alt="Electronics-repairer">
+                    <img src="../static/img/robotics_intern.jpg" alt="Electronics-repairer">
                     <figcaption name="Electronics-repairer">Electronics Repairer</figcaption>
                 </figure>
                 </li>
@@ -111,5 +111,5 @@
             </div>
         </footer>
     </body>
-    <script src="../js/landing.js"></script>
+    <script src="../static/js/landing.js"></script>
 </html>

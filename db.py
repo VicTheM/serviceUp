@@ -29,9 +29,7 @@ Victory = {
             "country": "Nigeria",
             "state": "Lagos",
             "LGA": "Oshodi-Isolo",
-            "LANDMARK": "Community Road",
             "Street": "Fatai Lawal",
-            "Domain": ["Ago Palace Way", "Okota", "Festac", "Yaba", "Ikoyi"]
         },
         "services": ["Electrician", "Electronics Repairer", "House Wiring", "Smart Device Installation"],
         "numOfStars": 257,

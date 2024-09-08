@@ -1,13 +1,21 @@
 """The main entry point to the flask application"""
-from flask import Flask, abort, jsonify, redirect, url_for, render_template, request, session, 
+from flask import Flask, abort, jsonify, redirect, url_for, render_template, send_file, request, session
 from pymongo import MongoClient
-from config.secrets import MONGODB_USER
-from config.secrets import MONGODB_USER_PASSWORD
-from config.development import *
+from typing import List, Dict, Any
+from .models.user import User
+from .models.user import Professional
+from werkzeug.security import generate_password_hash, check_password_hash
+
+
+MONGODB_USER = "testUser"
+MONGODB_USER_PASSWORD = "1234"
+DATABASE = "development"
 
 app = Flask(__name__)
 
-MONGODB_URI = f"mongodb+srv://{MONGODB_USER}:{MONGODB_USER_PASSWORD}@testcluster.njvzz.mongodb.net/?retryWrites=true&w=majority&appName=testCluster"
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+MONGODB_URI = "mongodb://localhost:27017/"
 client = MongoClient(MONGODB_URI)
 db = client[DATABASE]
 handworkMenCollection = db["handworkMen"]
@@ -20,36 +28,85 @@ userCollection = db["users"]
 def landing_page():
     """Loggedin page has premium css style while logged out page has a basic style"""
 
-    if "username" in session:
-        render_template('landing_logged_in.html')
+    if "email" in session:
+        return render_template('landing_logged_in.html')
     else:
-        render_template("landing.html")
+        print("No username in session")
+        return render_template('landing.html')
 
 @app.route('/register', methods=['POST'])
 def register():
     """Receives registration details as a POST parameter.
     Frontend will handle the data validation before making the request, otherwise abort it"""
-    email = request.
+    
+    data: Dict[str, Any] = request.get_json()
+    registration_type = data.get('registration-type')
+    firstname = data.get('firstname')
+    lastname = data.get('lastname')
+    username = data.get('username')
+    email = data.get('email')
+    password = data.get('password')
 
-    return redirect(url_for('landing_page'))
+    # Hash the password
+    hashed_password = generate_password_hash(password)
+
+    if registration_type == 'professional':
+    #     # Check if email already exists in userCollection or handworkMenCollection
+        # if handworkMenCollection.find_one({"email": email}):
+        #     print("Email already exists")
+        #     return jsonify({"error": "Email already exists"}), 400
+        if handworkMenCollection.find_one({"email": email}):
+            print("Email found")
+            return jsonify({"error": "Email already exist"}), 400
+        
+        # Extract additional professional data
+        contact = data.get('contact')
+        state = data.get('state')
+        area_or_city = data.get('city')
+        lga = data.get('lga')
+        street = data.get('street')
+        service = data.get('service')
+
+        # Create Professional object and save to the collection
+        new_professional = Professional(
+            firstname, lastname, email, username, hashed_password, contact=contact,
+            location={"state": state, "area_or_city": area_or_city, "lga": lga, "street": street},
+            services=[service]
+        )
+        handworkMenCollection.insert_one(new_professional.to_dict())
+    else:
+        if userCollection.find_one({"email": email}):
+            return jsonify({"error": "Email already exists"}), 400
+        # Create User object and save to the collection
+        new_user = User(firstname, lastname, email, username, password=hashed_password)
+        userCollection.insert_one(new_user.to_dict())
+
+    # Store username in session
+    session['email'] = email
+
+    # Redirect to the login page
+    return render_template('landing_logged_in.html')
 
 @app.route('/login', methods=['POST'])
 def login():
     """This page will do the session and cookie management
     then redirect to the profile page for professionals and index page for users"""
-    username = request.form.get('username')
-    password = request.form.get('password')
-    # hash it and compare it to the one in db 
-    session['username'] = username
-
+    # hash it and compare it to the one in db if it matches
     # spit out the special landing page for logged in users
+
+    email = request.form.get('email')
+    exists = userCollection.find_one({"email": email}) or handworkMenCollection.find_one({"email": email})
+    if not exists:
+        return jsonify({"error": "User not found"}), 404
+    if not check_password_hash(exists.get("password"), request.form.get('password')):
+        return jsonify({"error": "Incorrect password"}), 400
+    session['email'] = exists.get("email")
     return redirect(url_for('landing_page'))
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    #  clear session and pop username off it
-    # spit out the main landig page for non-logged in users
-    return "logout page"
+    session.pop('email', None)
+    # to be handled by the frontend
 
 @app.route('/profile', methods=['GET'])
 def profile():
@@ -57,14 +114,53 @@ def profile():
     # profile as json.
     # If no username in query string then return the
     # current user profile in a Jinja template
-    return "profile page"
+
+    if "email" in request.args:
+        email = request.args.get('username')
+        user = handworkMenCollection.find_one({"email": email})
+        return jsonify(user.to_dict())
+    else:
+        if "email" in session:
+            currentUser = session['email']
+            user = handworkMenCollection.find_one({"email": email})
+            return render_template('profile.html', user=user)
+        else:
+            return redirect(url_for('landing_page'))
 
 @app.route('/profile/edit', methods=['POST', 'PUT', 'DELETE'])
 def edit_profile():
     # Frontend will provide the feedback, we won't return anything
     # Change the user object using the parameters changed fed in from the query string
     # and update the record in db
-    return "edit profile page"
+
+    if "email" not in session:
+        return jsonify({"error": "Not logged in"}), 401
+    user = handworkMenCollection.find_one({"email": session['email']}) or userCollection.find_one({"email": session['email']})
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    
+    # any other parameter to change will be in the query string
+    if "firstname" in request.args:
+        user["firstname"] = request.args.get('firstname')
+    if "lastname" in request.args:
+        user["lastname"] = request.args.get('lastname')
+    if "contact" in request.args:
+        user["contact"] = request.args.get('contact')
+    if "state" in request.args:
+        user["location"]["state"] = request.args.get('state')
+    if "city" in request.args:
+        user["location"]["city"] = request.args.get('city')
+    if "lga" in request.args:
+        user["location"]["lga"] = request.args.get('lga')
+    if "street" in request.args:
+        user["location"]["street"] = request.args.get('street')
+    if "service" in request.args:
+        if request.method == 'DELETE':
+            user["services"].remove(request.args.get('service'))
+        else:
+            user["services"].append(request.args.get('service'))
+    
+    handworkMenCollection.update_one({"email": session['email']}, {"$set": user.to_dict()})
 
 
 # PROFESSIONAL ROUTES
@@ -72,27 +168,54 @@ def edit_profile():
 def search():
     # The current supported search field is the services field
     # return all professional profiles that offer that service
-    # as json 
-    return "search results"
+    # as json
+
+    service = request.args.get('service')
+    professionals = handworkMenCollection.find({"services": service})
+    return jsonify(professionals)
 
 @app.route('/action/hire', methods=['POST'])
 def hire():
     # Frontend will give the feedback
     # just update the professional hire records in
-    # the database 
-    return "hire page"
+    # the database
+
+    hired_professional = request.args.get('email')
+    professional = handworkMenCollection.find_one({"email": hired_professional})
+    professional["numberOfBookings"] += 1
+    handworkMenCollection.update_one({"email": hired_professional}, {"$set": {"numOfBookings": professional.get("numOfBookings")}}) # inefficient, rather use a mongo update operator
 
 @app.route('/action/review', methods=['POST'])
 def review():
     # Frontend will give the feedback
     # update the review record
-    return "review page"
+    review = request.args.get('review')
+    reviewed_professional = request.args.get('email')
+    professional = handworkMenCollection.find_one({"email": reviewed_professional})
+    professional["reviews"].append(review)
+    handworkMenCollection.update_one({"email": reviewed_professional}, {"$set": {"reviews": professional.get("reviews")}})
 
 @app.route('/action/rate', methods=['POST'])
 def rate():
     # Frontend will give the feedback
     # update the rating record
-    return "rate page"
+    star = request.args.get('star')
+    rated_professional = request.args.get('email')
+    professional = handworkMenCollection.find_one({"email": rated_professional})
+    professional["numOfStars"] += star
+    professional["numOfReviews"] += 1
+    handworkMenCollection.update_one({"email": rated_professional}, {"$set": {"numOfStars": professional.get("numOfStars"), "numOfReviews": professional.get("numOfReviews")}})
+
+@app.route('/action/profile/updatepassword', methods=['POST'])
+def update_password():
+    # Frontend will give the feedback
+    # update the password record
+    if "email" not in session:
+        return jsonify({"error": "Not logged in"}), 401
+    new_password = request.args.get('new-password')
+    professional = handworkMenCollection.find_one({"email": session['email']})
+    professional["password"] = generate_password_hash(new_password)
+    handworkMenCollection.update_one({"email": session['email']}, {"$set": {"password": professional.get("password")}})
 
 @app.errorhandler(404)
 def page_not_found_error(error):

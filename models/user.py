@@ -5,18 +5,39 @@ class User():
     """the base class for every user"""
     __numberOfUsers = 0
 
-    def __init__(self, name: str, email: str, **kwargs: dict):
+    def __init__(self, firstname: str, lastname: str, email: str, username: str, password: str, **kwargs: dict):
         User.__numberOfUsers += 1
-        self.name = name
+        self.firstname = firstname
+        self.lastname = lastname
         self.email = email
+        self.username = username
+        self.password = password
+
+    def to_dict(self):
+        """This function represents the class as a dictionary
+        for storing in database or jsonifying"""
+        return {
+            "firstname": self.firstname,
+            "lastname": self.lastname,
+            "email": self.email,
+            "username": self.username,
+            "password": self.password
+        }
+    
+    def from_dict(self, userDictionary: dict):
+        """This method populate a class instance from dictionary"""
+        self.firstname = userDictionary.get("firstname")
+        self.lastname = userDictionary.get("lastname")
+        self.username = userDictionary.get("username")
+        self.password = userDictionary.get("password")
 
 
 class Professional(User):
     """The service provider class"""
 
-    def __init__(self, name=None, email=None, **kwargs):
-        if name is not None:
-            super().__init__(name, email, **kwargs)
+    def __init__(self, firstname=None, lastname=None, email=None, username=None, password=None, **kwargs):
+        if firstname is not None:
+            super().__init__(firstname, lastname, email, username, password, **kwargs)
             self.numOfStars = 0
             self.numOfReviews = 0
             self.numberOfProfileView = 0
@@ -36,6 +57,8 @@ class Professional(User):
                 self.services = []
             if "reviewMessage" in kwargs:
                 self.reviewMessage = kwargs["reviewMessage"]
+            else:
+                self.reviewMessage = []
         # if name is None, then the class instance is being populated from the database
         # use the syntax variable = Professional().from_dict(professionalDictionary)
 
@@ -50,8 +73,11 @@ class Professional(User):
         reviewMessages: list
         """
         return {
-            "name": self.name,
+            "firstname": self.firstname,
+            "lastname": self.lastname,
             "email": self.email,
+            "username": self.username,
+            "password": self.password,
             "contact": self.contact,
             "location": self.location,
             "services": self.services,
@@ -64,7 +90,10 @@ class Professional(User):
     
     def from_dict(self, professionalDictionary: dict):
         """This method populate a class instance from dictionary"""
-        self.name = professionalDictionary.get("name")
+        self.firstname = professionalDictionary.get("firstname")
+        self.lastname = professionalDictionary.get("lastname")
+        self.username = professionalDictionary.get("username")
+        self.password = professionalDictionary.get("password")
         self.email = professionalDictionary.get("email")
         self.contact = professionalDictionary.get("contact")
         self.location = professionalDictionary.get("location")
