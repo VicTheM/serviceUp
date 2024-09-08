@@ -1,23 +1,20 @@
 """The main entry point to the flask application"""
 from flask import Flask, jsonify, redirect, url_for, render_template, request, session
 from pymongo import MongoClient
+from werkzeug.security import generate_password_hash, check_password_hash
+from bson import json_util
 from typing import List, Dict, Any
 from .models.user import User
 from .models.user import Professional
-from werkzeug.security import generate_password_hash, check_password_hash
-from bson import json_util
-
-
-MONGODB_USER = "testUser"
-MONGODB_USER_PASSWORD = "1234"
-DATABASE = "development"
+from config.secrets import *
+from config.development import *
 
 app = Flask(__name__)
 
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.secret_key = APP_SECRET_KEY
 
-MONGODB_URI = "mongodb://localhost:27017/"
 client = MongoClient(MONGODB_URI)
+
 db = client[DATABASE]
 handworkMenCollection = db["handworkMen"]
 userCollection = db["users"]

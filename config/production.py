@@ -1,0 +1,3 @@
+MONGODB_USER = "testUser"
+MONGODB_USER_PASSWORD = "1234"
+DATABASE = "development"
