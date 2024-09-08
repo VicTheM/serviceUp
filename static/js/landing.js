@@ -96,24 +96,24 @@ function register(form) {
 
     // Send the data using fetch API
     fetch('/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
+        method: 'POST'
+        // headers: {
+        //     'Content-Type': 'application/json'
+        // },
+        // body: JSON.stringify(formData)
     })
-    .then(response => response.text())  // Get the HTML content as a text response
-    .then(html => {
-        // Create a new document from the received HTML
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+    // .then(response => response.text())  // Get the HTML content as a text response
+    // .then(html => {
+    //     // Create a new document from the received HTML
+    //     const parser = new DOMParser();
+    //     const doc = parser.parseFromString(html, 'text/html');
     
-        // Replace the entire document with the new HTML
-        document.replaceChild(
-            document.adoptNode(doc.documentElement), 
-            document.documentElement
-        );
-    })
+    //     // Replace the entire document with the new HTML
+    //     document.replaceChild(
+    //         document.adoptNode(doc.documentElement), 
+    //         document.documentElement
+    //     );
+    // })
     .catch(error => {
         console.error('Error:', error);
         alert('Error during registration: ' + error.message);

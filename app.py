@@ -1,10 +1,11 @@
 """The main entry point to the flask application"""
-from flask import Flask, abort, jsonify, redirect, url_for, render_template, send_file, request, session
+from flask import Flask, jsonify, redirect, url_for, render_template, request, session
 from pymongo import MongoClient
 from typing import List, Dict, Any
 from .models.user import User
 from .models.user import Professional
 from werkzeug.security import generate_password_hash, check_password_hash
+from bson import json_util
 
 
 MONGODB_USER = "testUser"
@@ -31,7 +32,6 @@ def landing_page():
     if "email" in session:
         return render_template('landing_logged_in.html')
     else:
-        print("No username in session")
         return render_template('landing.html')
 
 @app.route('/register', methods=['POST'])
@@ -52,9 +52,6 @@ def register():
 
     if registration_type == 'professional':
     #     # Check if email already exists in userCollection or handworkMenCollection
-        # if handworkMenCollection.find_one({"email": email}):
-        #     print("Email already exists")
-        #     return jsonify({"error": "Email already exists"}), 400
         if handworkMenCollection.find_one({"email": email}):
             print("Email found")
             return jsonify({"error": "Email already exist"}), 400
@@ -95,7 +92,7 @@ def login():
     # spit out the special landing page for logged in users
 
     email = request.form.get('email')
-    exists = userCollection.find_one({"email": email}) or handworkMenCollection.find_one({"email": email})
+    exists: Dict[str, Any] = userCollection.find_one({"email": email}) or handworkMenCollection.find_one({"email": email})
     if not exists:
         return jsonify({"error": "User not found"}), 404
     if not check_password_hash(exists.get("password"), request.form.get('password')):
@@ -105,8 +102,9 @@ def login():
 
 @app.route('/logout', methods=['POST'])
 def logout():
-    session.pop('email', None)
+    session.clear()
     # to be handled by the frontend
+    return jsonify({"message": "Logged out successfully"})
 
 @app.route('/profile', methods=['GET'])
 def profile():
@@ -115,27 +113,30 @@ def profile():
     # If no username in query string then return the
     # current user profile in a Jinja template
 
+    # get parameter from query string
     if "email" in request.args:
-        email = request.args.get('username')
-        user = handworkMenCollection.find_one({"email": email})
-        return jsonify(user.to_dict())
+        email = request.args.get('email')
+        professional = handworkMenCollection.find_one({"email": email})
+        return jsonify(json_util._json_convert(professional))
     else:
         if "email" in session:
             currentUser = session['email']
-            user = handworkMenCollection.find_one({"email": email})
+            user = handworkMenCollection.find_one({"email": currentUser}) or userCollection.find_one({"email": currentUser})
             return render_template('profile.html', user=user)
         else:
             return redirect(url_for('landing_page'))
 
 @app.route('/profile/edit', methods=['POST', 'PUT', 'DELETE'])
 def edit_profile():
+    """   TESTED WITH POSTMAN   """
     # Frontend will provide the feedback, we won't return anything
     # Change the user object using the parameters changed fed in from the query string
     # and update the record in db
 
     if "email" not in session:
         return jsonify({"error": "Not logged in"}), 401
-    user = handworkMenCollection.find_one({"email": session['email']}) or userCollection.find_one({"email": session['email']})
+    email = session['email']
+    user = handworkMenCollection.find_one({"email": email}) or userCollection.find_one({"email": email})
     if not user:
         return jsonify({"error": "User not found"}), 404
     
@@ -160,7 +161,8 @@ def edit_profile():
         else:
             user["services"].append(request.args.get('service'))
     
-    handworkMenCollection.update_one({"email": session['email']}, {"$set": user.to_dict()})
+    handworkMenCollection.update_one({"email": email}, {"$set": user})
+    return jsonify({"message": "Profile updated successfully"})
 
 
 # PROFESSIONAL ROUTES
@@ -172,7 +174,13 @@ def search():
 
     service = request.args.get('service')
     professionals = handworkMenCollection.find({"services": service})
-    return jsonify(professionals)
+    if not professionals:
+        return jsonify({"error": "No professional found"}), 404
+
+    professionals = list(professionals)
+    for professional in professionals:
+        print(professional)
+    return jsonify(json_util._json_convert(professionals))
 
 @app.route('/action/hire', methods=['POST'])
 def hire():
@@ -182,29 +190,50 @@ def hire():
 
     hired_professional = request.args.get('email')
     professional = handworkMenCollection.find_one({"email": hired_professional})
-    professional["numberOfBookings"] += 1
+    if not professional:
+        return jsonify({"error": "Professional not found"}), 404
+    print (f"number of booking before update: {professional["numOfBookings"]}")
+    if not "numOfBookings" in professional or professional["numOfBookings"] is None:
+        professional["numOfBookings"] = 0
+    professional["numOfBookings"] += 1
+    print (f"number of booking before saving: {professional["numOfBookings"]}")
     handworkMenCollection.update_one({"email": hired_professional}, {"$set": {"numOfBookings": professional.get("numOfBookings")}}) # inefficient, rather use a mongo update operator
+    print (f"number of booking after saving: {professional["numOfBookings"]}")
+    return jsonify({"message": "Professional hired successfully"})
 
 @app.route('/action/review', methods=['POST'])
 def review():
     # Frontend will give the feedback
     # update the review record
-    review = request.args.get('review')
+    review = request.form.get('review')
     reviewed_professional = request.args.get('email')
     professional = handworkMenCollection.find_one({"email": reviewed_professional})
+    if not professional:
+        return jsonify({"error": "Professional not found"}), 404
     professional["reviews"].append(review)
     handworkMenCollection.update_one({"email": reviewed_professional}, {"$set": {"reviews": professional.get("reviews")}})
+    return jsonify({"message": "Review added successfully"})
 
 @app.route('/action/rate', methods=['POST'])
 def rate():
     # Frontend will give the feedback
     # update the rating record
     star = request.args.get('star')
+    if not isinstance(star, int):
+        star = int(star)
+    if star > 5:
+        star = 5
+    elif star < 1:
+        star = 1
     rated_professional = request.args.get('email')
     professional = handworkMenCollection.find_one({"email": rated_professional})
+    if not professional:
+        return jsonify({"error": "Professional not found"}), 404
     professional["numOfStars"] += star
     professional["numOfReviews"] += 1
     handworkMenCollection.update_one({"email": rated_professional}, {"$set": {"numOfStars": professional.get("numOfStars"), "numOfReviews": professional.get("numOfReviews")}})
+
+    return jsonify({"message": "Rating added successfully"})
 
 @app.route('/action/profile/updatepassword', methods=['POST'])
 def update_password():
