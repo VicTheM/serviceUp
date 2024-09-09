@@ -1,0 +1,78 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+section[name="information"] {
+    width: 35%;
+    float: left;
+    padding: 20px;
+}
+
+section[name="actions"] {
+    width: 65%;
+    float: right;
+    padding: 20px;
+}
+
+#search-form {
+    width: 50%;
+    margin: 0 auto;
+}
+
+#login-container {
+    float: left;
+    width: 45%;
+    padding: 10px;
+}
+
+#register {
+    float: right;
+    width: 45%;
+    padding: 10px;
+}
+
+/* Ensures the forms are aligned properly beneath the search bar */
+form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+form input, form select {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+footer {
+    background-color: #f8f8f8;
+    text-align: center;
+    padding: 10px;
+    clear: both;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+#suggestions {
+    margin-top: 5px;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    display: none;
+    max-height: 100px;
+    overflow-y: auto;
+}
+
+#suggestions div {
+    padding: 8px;
+    cursor: pointer;
+}

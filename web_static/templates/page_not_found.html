@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <meta>
+    <head>
+        <title>404 Error</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css')}}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css')}}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/notfound.css')}}"></link>
+    </head>
+    <body>
+        <header>
+            <!--Navigation elements (within the entire app)-->
+            <nav>
+                <a href="{{ url_for('landing_page') }}">Home</a>
+                <a href="{{ url_for('landing_page', _anchor='register') }}">Register</a>
+                <a href="{{ url_for('landing_page', _anchor='login') }}">Login</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+                <a href="about.html">About</a>
+            </nav>
+        </header>
+
+        <h1>Page Not Found</h1>
+    </body>
+</html>
