@@ -22,7 +22,7 @@
             <a href="{{ url_for('landing_page') }}">Home</a>
             <a href="{{ url_for('landing_page', _anchor='register') }}">Register</a>
             <a href="{{ url_for('landing_page', _anchor='login') }}">Login</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{ url_for('logout') }}" class="logout">Logout</a>
             <a href="about.html">About</a>
         </nav>
     </header>
@@ -34,8 +34,8 @@
         </div>
 
         <div class="profile-info">
-            <p><strong>Email:</strong> Hire to see</p>
-            <p><strong>Contact:</strong> Hire to see</p>
+            <p><strong>Email:</strong> **Hire to see**</p>
+            <p><strong>Contact:</strong> **Hire to see**</p>
             <p><strong>Location:</strong> {{ user.location.street }}, {{ user.location.area_or_city }}, {{ user.location.lga }}, {{ user.location.state }}</p>
             
             <h3>Services</h3>
@@ -60,17 +60,17 @@
     </div>
 
     <!--Review form -->
-    <form id="reviewForm" onsubmit="review('{{ user.email }}')">
+    <form id="reviewForm" onsubmit="reviewProfessional('{{ user.email }}')">
         <label for="review">Review</label>
         <textarea id="review" name="review" required></textarea>
         <button type="submit">Submit</button>
     </form>
 
-    <div id="reviewSuccess">
+    <div id="successMessage">
         <h3>Success!</h3>
         <div>Your review has been submitted</div>
     </div>
-    
+
     <!-- Hire button -->
     <button id="hire" onclick="hireProfessional('{{ user.email }}')">Hire</button>
 

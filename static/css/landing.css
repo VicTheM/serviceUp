@@ -6,19 +6,6 @@ body {
     flex-direction: column;
 }
 
-header {
-    background-color: #f8f8f8;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-}
-
-nav a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: #333;
-}
-
 h1 {
     text-align: center;
     margin: 20px 0;

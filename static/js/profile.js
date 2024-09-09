@@ -90,7 +90,7 @@ async function hireProfessional(email) {
 }
   
 
-async function review(email) {
+async function reviewProfessional(email) {
   // Prevent form submission from reloading the page
   event.preventDefault();
 
@@ -118,13 +118,10 @@ async function review(email) {
     console.log('Review response:', result);
 
     // Display the success message
-    const reviewSuccess = document.getElementById('reviewSuccess');
+    const reviewSuccess = document.getElementById('successMessage');
     reviewSuccess.style.display = 'block';
 
-    // Refresh the page after a short delay (e.g., 1 second)
-    setTimeout(() => {
-      location.reload();
-    }, 2000); // 1 second delay
+    // create a new list for this new review message
 
   } catch (error) {
     console.error('Error submitting review:', error);

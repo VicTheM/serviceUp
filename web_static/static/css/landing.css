@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* The first screen before scroll */ 
+.first-screen {
+}
+
+/* where the user interacts with */
+.action {
+}
+
+/* All form containers */
+.form-container {
+
+}
+
+/* All forms */
+.form {
+}
+
+
+section[name="information"] {
+}
+
+section[name="actions"] {
+}
+
+#search-form {
+}
+
+#login-form {
+}
+
+#registration-form {
+}
+
+#login-container {
+}
+
+#register {
+}
+
+.form input, .form select {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+}

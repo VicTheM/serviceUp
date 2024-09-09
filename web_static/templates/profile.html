@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css')}}"></link>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css')}}"></link>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css')}}"></link>
+    <style>
+        #successMessage {
+          display: none;
+          color: green;
+          font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <!--Navigation elements (within the entire app)-->
+        <nav>
+            <a href="{{ url_for('landing_page') }}">Home</a>
+            <a href="{{ url_for('landing_page', _anchor='register') }}">Register</a>
+            <a href="{{ url_for('landing_page', _anchor='login') }}">Login</a>
+            <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+            <a href="about.html">About</a>
+            <!-- edit profile replce with an icon-->
+            <a href="#edit_profile">Edit Profile</a>
+        </nav>
+    </header>
+    <div class="container" class="main-frame">
+        <div class="profile-header" class="profile">
+            <h1>{{ user.firstname }} {{ user.lastname }}</h1>
+            <span>Username: {{ user.username }}</span>
+        </div>
+
+        <div class="profile-info" class="profile-info">
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Contact:</strong> {{ user.contact }}</p>
+            <p><strong>Location:</strong> {{ user.location.street }}, {{ user.location.area_or_city }}, {{ user.location.lga }}, {{ user.location.state }}</p>
+            
+            <h3>Services</h3>
+            <ul class="services-list">
+                {% for service in user.services %}
+                    <li>{{ service }}</li>
+                {% endfor %}
+            </ul>
+
+            <p><strong>Number of Stars:</strong> {{ user.numOfStars }}</p>
+            <p><strong>Number of Reviews:</strong> {{ user.numOfReviews }}</p>
+            <p><strong>Number of Bookings:</strong> {{ user.numOfBookings }}</p>
+            <p><strong>Profile Views:</strong> {{ user.numberOfProfileView }}</p>
+
+            <h3>Reviews</h3>
+            <ul class="reviews-list">
+                {% for review in user.reviews %}
+                    <li>{{ review }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <!--feature to enable user to edit profile and send the changed data to backend-->
+    <form id="editProfileForm" class="form">
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname"><br>
+    
+        <label for="lastname">Last Name:</label>
+        <input type="text" id="lastname" name="lastname"><br>
+    
+        <label for="contact">Contact:</label>
+        <input type="text" id="contact" name="contact"><br>
+    
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state"><br>
+    
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city"><br>
+    
+        <label for="lga">LGA:</label>
+        <input type="text" id="lga" name="lga"><br>
+    
+        <label for="street">Street:</label>
+        <input type="text" id="street" name="street"><br>
+    
+        <label for="service">Service:</label>
+        <input type="text" id="service" name="service"><br>
+    
+        <button type="button" onclick="updateProfile('POST')">Submit Changes (POST)</button>
+        <button type="button" onclick="deleteService()">Delete service</button>
+      </form>
+      <p id="successMessage">Profile update successful! Refreshing page...</p>
+</body>
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+</html>

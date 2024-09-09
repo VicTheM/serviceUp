@@ -1,0 +1,54 @@
+/* Header styling */
+header {
+    background-color: #333;
+    color: white;
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 15px;
+}
+
+nav a:hover {
+    background-color: #555;
+    border-radius: 5px;
+}
+
+header h1 {
+    font-size: 24px;
+    margin-left: 20px;
+}
+
+.logo {
+    margin-left: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+/* Logout button to top right */
+.logout {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #ff4b5c;
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.logout:hover {
+    background-color: #ff6f7d;
+}
