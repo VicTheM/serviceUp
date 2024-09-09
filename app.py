@@ -1,11 +1,26 @@
 """
 The main entry point to the flask application.
+
+UNFINISHED WORK
+1) The following route are yet to be accessible from the frontend:
+    '/action/rate'
+    '/action/profile/updatepassword'
+2) When a user reviews a professional, the message is only stored
+    in the user document. The id of that review is meant to be saved
+    in the reviewer's document so we can know who made a review
+3) We still return HTML through rendering templates, but we are meant to
+    jsonify all responses while the frontend handles the progressive update
+    of pages
+4) When a new professional registers, the service they offer is meant to be
+    added to a json file that the index page will load up when a user queries
+    it, but the services are currently hardcoded oin the "static/js/services.js"
+    file. so mew registrations are not reflected on the frontend, just db alone
 """
 from flask import Flask, jsonify, redirect, url_for, render_template, request, session
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson import json_util
-from typing import List, Dict, Any
+from typing import Dict, Any
 from .models.user import User
 from .models.user import Professional
 from .config.secrets import *
@@ -16,14 +31,12 @@ app = Flask(__name__)
 app.secret_key = APP_SECRET_KEY
 
 client = MongoClient(MONGODB_URI)
-
 db = client[DATABASE]
 handworkMenCollection = db["handworkMen"]
 userCollection = db["users"]
 
 
-
-# GENERAL ROUTES
+# ROUTES DEFINITIONS
 @app.route("/", methods=['GET'])
 def landing_page():
     """Loggedin page has premium css style while logged out page has a basic style"""
@@ -32,12 +45,13 @@ def landing_page():
         return render_template('landing_logged_in.html')
     else:
         return render_template('landing.html')
+    
 
 @app.route('/register', methods=['POST'])
 def register():
     """Receives registration details as a POST parameter.
     Frontend will handle the data validation before making the request, otherwise abort it"""
-    
+
     data: Dict[str, Any] = request.get_json()
     registration_type = data.get('registration-type')
     firstname = data.get('firstname')
@@ -45,12 +59,10 @@ def register():
     username = data.get('username')
     email = data.get('email')
     password = data.get('password')
-
-    # Hash the password
     hashed_password = generate_password_hash(password)
 
     if registration_type == 'professional':
-    #     # Check if email already exists in userCollection or handworkMenCollection
+    # Check if email already exists in userCollection or handworkMenCollection
         if handworkMenCollection.find_one({"email": email}):
             print("Email found")
             return jsonify({"error": "Email already exist"}), 400
@@ -74,15 +86,15 @@ def register():
     else:
         if userCollection.find_one({"email": email}):
             return jsonify({"error": "Email already exists"}), 400
+        
         # Create User object and save to the collection
         new_user = User(firstname, lastname, email, username, password=hashed_password)
         userCollection.insert_one(new_user.to_dict())
 
     # Store username in session
     session['email'] = email
-
-    # Redirect to the login page
     return render_template('landing_logged_in.html')
+
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -100,11 +112,13 @@ def login():
     session['email'] = exists.get("email")
     return redirect(url_for('landing_page'))
 
+
 @app.route('/logout', methods=['POST', 'GET'])
 def logout():
     session.clear()
     # to be handled by the frontend
     return render_template('landing.html')
+
 
 @app.route('/profile', methods=['GET'])
 def profile():
@@ -125,6 +139,7 @@ def profile():
             return render_template('profile.html', user=user)
         else:
             return redirect(url_for('landing_page'))
+
 
 @app.route('/profile/edit', methods=['POST', 'PUT', 'DELETE'])
 def edit_profile():
@@ -184,6 +199,7 @@ def search():
     print("The list: ", professionals)
     return jsonify(json_util._json_convert(professionals))
 
+
 @app.route('/action/hire', methods=['POST'])
 def hire():
     # Frontend will give the feedback.
@@ -200,6 +216,7 @@ def hire():
     handworkMenCollection.update_one({"email": hired_professional}, {"$set": {"numOfBookings": professional.get("numOfBookings")}}) # inefficient, rather use a mongo update operator
     return jsonify({"message": "Professional hired successfully"})
 
+
 @app.route('/action/review', methods=['POST'])
 def review():
     # Frontend will give the feedback
@@ -212,6 +229,7 @@ def review():
     professional["reviews"].append(review)
     handworkMenCollection.update_one({"email": reviewed_professional}, {"$set": {"reviews": professional.get("reviews")}})
     return jsonify({"message": "Review added successfully"})
+
 
 @app.route('/action/rate', methods=['POST'])
 def rate():
@@ -234,6 +252,7 @@ def rate():
 
     return jsonify({"message": "Rating added successfully"})
 
+
 @app.route('/action/profile/updatepassword', methods=['POST'])
 def update_password():
     # Frontend will give the feedback
@@ -246,10 +265,12 @@ def update_password():
     handworkMenCollection.update_one({"email": session['email']}, {"$set": {"password": professional.get("password")}})
     return jsonify({"message": "Password updated successfully"})
 
+
 @app.route('/about', methods=['GET'])
 @app.route('/about.html', methods=['GET'])
 def about():
     return render_template('about.html')
+
 
 @app.errorhandler(404)
 def page_not_found_error(error):
