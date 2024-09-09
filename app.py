@@ -99,9 +99,10 @@ def register():
 @app.route('/login', methods=['POST'])
 def login():
     """This page will do the session and cookie management
-    then redirect to the profile page for professionals and index page for users"""
+    then redirect to the profile page for professionals and index page for users
     # hash it and compare it to the one in db if it matches
     # spit out the special landing page for logged in users
+    """
 
     email = request.form.get('email')
     exists: Dict[str, Any] = userCollection.find_one({"email": email}) or handworkMenCollection.find_one({"email": email})
