@@ -24,17 +24,17 @@
             <a href="{{ url_for('landing_page', _anchor='login') }}">Login</a>
             <a href="{{ url_for('logout') }}" class="logout">Logout</a>
             <a href="about.html">About</a>
-            <!-- edit profile-->
+            <!-- edit profile replce with an icon-->
             <a href="#edit_profile">Edit Profile</a>
         </nav>
     </header>
-    <div class="container">
-        <div class="profile-header">
+    <div class="container" class="main-frame">
+        <div class="profile-header" class="profile">
             <h1>{{ user.firstname }} {{ user.lastname }}</h1>
             <span>Username: {{ user.username }}</span>
         </div>
 
-        <div class="profile-info">
+        <div class="profile-info" class="profile-info">
             <p><strong>Email:</strong> {{ user.email }}</p>
             <p><strong>Contact:</strong> {{ user.contact }}</p>
             <p><strong>Location:</strong> {{ user.location.street }}, {{ user.location.area_or_city }}, {{ user.location.lga }}, {{ user.location.state }}</p>
@@ -60,7 +60,7 @@
         </div>
     </div>
     <!--feature to enable user to edit profile and send the changed data to backend-->
-    <form id="editProfileForm">
+    <form id="editProfileForm" class="form">
         <label for="firstname">First Name:</label>
         <input type="text" id="firstname" name="firstname"><br>
     

@@ -27,7 +27,7 @@
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container" class="main-frame">
         <div class="profile-header">
             <h1>{{ user.firstname }} {{ user.lastname }}</h1>
             <span>Username: {{ user.username }}</span>
@@ -60,27 +60,27 @@
     </div>
 
     <!--Review form -->
-    <form id="reviewForm" onsubmit="reviewProfessional('{{ user.email }}')">
-        <label for="review">Review</label>
+    <form id="reviewForm" onsubmit="reviewProfessional('{{ user.email }}')" class="form">
+        <label for="review" class="label">Review</label>
         <textarea id="review" name="review" required></textarea>
         <button type="submit">Submit</button>
     </form>
 
-    <div id="successMessage">
+    <div id="successMessage" class="hidden-message">
         <h3>Success!</h3>
         <div>Your review has been submitted</div>
     </div>
 
     <!-- Hire button -->
-    <button id="hire" onclick="hireProfessional('{{ user.email }}')">Hire</button>
+    <button id="hire" onclick="hireProfessional('{{ user.email }}')" class="button">Hire</button>
 
     <!-- Hire Message initially hidden -->
-    <div id="hireMessage">
+    <div id="hireMessage" class="hidden-message">
         <h3>Success!</h3>
         <div>Either call or chat at {{ user.contact }} </div>
         <div>We have sent an email to {{ user.email }} and he should be on his way immediately</div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+    <script src="../static/js/profile.js"></script>
 </body>
 </html>
