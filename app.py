@@ -196,7 +196,10 @@ def search():
         return jsonify({"error": "No professional found"}), 404
 
     professionals = list(professionals)
-    print("The list: ", professionals)
+    """
+    later, implement a filter algorithm here to return only professionals
+    whose location are close to the user's location
+    """
     return jsonify(json_util._json_convert(professionals))
 
 
