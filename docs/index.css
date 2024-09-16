@@ -1,0 +1,270 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    --s: 105px; /* control the size*/
+    --c1: #b9b9b9;
+    --c2: #dcdcdc;
+    --c3: #fafafa;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+.btn {
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    text-shadow: 1px 1px 3px #666666;
+    font-family: Courier New;
+    color: #000000;
+    font-size: 20px;
+    background: #ffca6e;
+    padding: 10px 20px;
+    border: solid #1f628d 1.3px;
+    text-decoration: none;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    transition: transform 0.3s ease; /* Smooth scaling on hover */
+    outline: none;
+    cursor: pointer;
+}
+
+/* Hover effect: Button gets bigger */
+.btn:hover {
+    background: #f00;
+    transform: scale(1.1); /* Increase size on hover */
+    text-decoration: none;
+}
+
+/* Click (bounce) effect */
+.btn:active {
+    animation: bounce 0.4s; /* Apply bounce animation on click */
+}
+
+/* Bounce animation */
+@keyframes bounce {
+    0% {
+        transform: scale(1); /* Normal size */
+    }
+    30% {
+        transform: scale(1.3); /* Grow big */
+    }
+    60% {
+        transform: scale(0.9); /* Shrink slightly */
+    }
+    100% {
+        transform: scale(1); /* Return to normal size */
+    }
+}
+
+
+.screen {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+}
+
+#screen1 {
+    background-color: #f0f0f0;
+}
+
+#screen2 {
+    background-color: #fff;
+}
+
+#main-header {
+    font-size: 3rem;
+    font-weight: bolder;
+    margin-bottom: 3rem;
+    transform: scaleY(1.3);
+}
+
+section#screen1 h2 {
+    font-size: 2.5rem;
+}
+
+section#screen1 h2 span {
+    color: #f00;
+    font-weight: bolder;
+}
+
+p {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    text-align: center;
+}
+
+.text-section {
+    flex-basis: 60%;
+    border-style: hidden;
+    padding-right: 2%;
+    max-width: 20%;
+}
+
+#text-section-two {
+    max-width: 100%;
+    text-align: left;
+}
+
+.text-section h1, .text-section h2 {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.text-section p {
+    font-size: 1.25rem;
+    line-height: 1.5;
+}
+
+.image-section img {
+    max-width: 100%;
+    height: auto;
+    flex-basis: 55%;
+}
+
+.video-section video {
+    width: 100%;
+    height: auto;
+    flex-basis: 40%;
+}
+
+.features-section {
+    margin-top: 1rem;
+}
+
+.features-section h3 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.features-section ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+}
+
+.features-section ul li {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+#about-paragraph {
+    font-size: 1.2rem;
+    line-height: 2;
+    text-align: center;
+    margin-top: 1rem;
+    margin-left: 1%;
+    padding: 1%;
+}
+
+.how-built-section {
+    margin-top: 1rem;
+    line-height: 2;
+}
+
+.how-built-section h3 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.how-built-section p {
+    font-size: 1.1rem;
+    line-height: 2;
+}
+
+
+@media (max-width: 900px) {
+    .btn {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        left: auto;
+    }
+
+    .screen {
+        flex-direction: column;
+        height: auto; /* Allow height to adjust based on content */
+        padding: 20px;
+    }
+
+    .text-section, .image-section, .video-section, #text-section-two {
+        flex-basis: 100%;
+        max-width: 100%;
+        padding: 10px 0;
+    }
+
+    #main-header {
+        font-size: 2.5rem;
+    }
+
+    section#screen1 h2 {
+        font-size: 2rem;
+    }
+
+    p {
+        font-size: 1.2rem;
+        text-align: left;
+    }
+
+    .features-section h3,
+    .how-built-section h3 {
+        font-size: 1.5rem;
+    }
+
+    .features-section ul li,
+    .how-built-section p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .btn {
+        padding: 8px 16px;
+        font-size: 16px;
+        top: 10px;
+        right: 10px;
+    }
+
+    #main-header {
+        font-size: 2rem;
+    }
+
+    section#screen1 h2 {
+        font-size: 1.8rem;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+
+    .text-section h1, .text-section h2 {
+        font-size: 2.5rem;
+    }
+
+    .features-section h3,
+    .how-built-section h3 {
+        font-size: 1.3rem;
+    }
+
+    .features-section ul li,
+    .how-built-section p {
+        font-size: 0.95rem;
+    }
+
+    /* Adjust button position if overlapping */
+    .btn {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+    }
+}
