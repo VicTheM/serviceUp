@@ -1,0 +1,89 @@
+#successMessage,
+#hireMessage {
+    display: none;
+    color: green;
+    font-weight: bold;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ensures footer sticks to the bottom of the page even if the page content is not long enough */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+/*  */
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.profile-info {
+    display: none;
+}
+
+.form-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.form-wrapper form {
+    flex: 1;
+}
+
+.review-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.review-container label {
+    font-weight: bold;
+}
+
+.review-container textarea {
+    border: 2px solid currentColor;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    resize: none;
+}
+
+.dialog {
+    display: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 1rem;
+}
+
+/* used in the JavaScript file */
+.show {
+    display: block;
+}
+
+
+/* Media queries */
+@media (min-width: 768px) {
+    .main-container {
+        flex-direction: row;
+        column-gap: calc(2rem + 5vw);
+    }
+
+    .main-container > div {
+        flex: 1 1 0px;
+    }
+}

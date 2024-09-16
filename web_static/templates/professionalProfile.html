@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ user.firstname }} {{ user.lastname }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css')}}"></link>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css')}}"></link>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css')}}"></link>
+    <link rel="stylesheet" href="header.css"></link>
+    <link rel="stylesheet" href="footer.css"></link>
+    <link rel="stylesheet" href="profile.css"></link>
     <style>
         #successMessage, #hireMessage {
           display: none;
@@ -19,10 +19,10 @@
     <header>
         <!--Navigation elements (within the entire app)-->
         <nav>
-            <a href="{{ url_for('landing_page') }}">Home</a>
-            <a href="{{ url_for('landing_page', _anchor='register') }}">Register</a>
-            <a href="{{ url_for('landing_page', _anchor='login') }}">Login</a>
-            <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+            <a href="landing_page">Home</a>
+            <a href="landing_page#register">Register</a>
+            <a href="landing_page#login">Login</a>
+            <a href="logout" class="logout">Logout</a>
             <a href="about.html">About</a>
         </nav>
     </header>
@@ -81,6 +81,6 @@
         <div>We have sent an email to {{ user.email }} and he should be on his way immediately</div>
     </div>
 
-    <script src="../static/js/profile.js"></script>
+    <script src="profile.js"></script>
 </body>
 </html>

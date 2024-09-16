@@ -5,9 +5,9 @@
         <meta name="author" content="Victory Chibuike">
         <meta name="description" content="A website where you cn hire all of your professionals and handiwork men">
         <title>ServiceUp</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css')}}"></link>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css')}}"></link>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css')}}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}"></link>
     </head>
     <body>
         <noscript>
@@ -17,40 +17,53 @@
         </noscript>
         <header>
             <!--Navigation elements (within the entire app)-->
+            <div class="nav-toggle-container">
+                <label class="nav-toggle" for="nav-toggle-input">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </label>
+            </div>
+            <input type="checkbox" class="nav-toggle-input" id="nav-toggle-input">
             <nav>
-                <a href="{{ url_for('landing_page') }}">Home</a>
+                <a href="landing.html">Home</a>
                 <a href="#register">Register</a>
                 <a href="#login">Login</a>
-                <a href="{{ url_for('logout') }}" class="logout">Logout</a>
                 <a href="about.html">About</a>
+                <a href="page_not_found.html" class="logout">Logout</a>
             </nav>
         </header>
-        <h1>Hire like a pro</h1>
+        <div class="overlay"></div>
         <div id="first-screen">
-            <!--Infor about the app here-->
-            <section name="information" class="information">
-                <p name="elevator">
-                    <h2>ServiceUp is a website where you can hire professionals close to you for all sort of services under slim time constraints.</h2>
-                </p>
-            </section>
+            <div class="hero">
+                <h1 class="headline">Hire like a pro</h1>
+                    <!--Infor about the app here-->
+                    <section name="information" class="information">
+                        <p name="elevator" class="subheadline">
+                            ServiceUp is a website where you can hire professionals close to you for all sort of services under slim time constraints.
+                        </p>
+                    </section>
+            </div>
 
             <!--All forms, button etc here-->
             <section name="actions" class="action">
 
                 <div name="search-form" id="search" class="form-container">
-                    <form id=search-form onsubmit="return handleSearch(event)" class="form">
+                    <form id="search-form" onsubmit="return handleSearch(event)" class="form card">
                         <label for="search-box">Search</label>
-                        <input type="text" id="searchInput" placeholder="eg: Electrician" onkeyup="showSuggestions()" autofocus required>
-                        <div id="suggestions"></div>
-                        <button type="submit">Search</button>
+                        <div class="search-input-container">
+                            <input type="text" id="searchInput" placeholder="eg: Electrician" onkeyup="showSuggestions()" autofocus required>
+                            <button class="button secondary" type="submit">Search</button>
+                        </div>
+                <div id="suggestions"></div>
                     </form>
                 </div>
                 <div id="results"></div>
 
 
-                <div name="others">
+                <div name="others" class="forms-container card">
                     <div name="login-container" id="login-container" class="form-container">
-                        Login<br>
+                        <h3 class="form-title">Login</h3>
                         <form id="login-form" action="/login" method="POST" class="form">
                             <div class="login-form-field">
                                 <input type="email" placeholder="Email" name="email">
@@ -58,15 +71,21 @@
                             <div class="login-form-field">
                                 <input type="text" placeholder="Password" name="password">
                             </div>
-                                <input type="submit" value="Login">
+                                <input type="submit" class="button primary" value="Login">
                         </form>
                     </div>
-                    <div name="register" id="register" class="form-container">
-                        Register<br>
+                    <div class="forms-separator">
+                        <div class="line"></div>
+                        <span>OR</span>
+                        <div class="line"></div>
+                    </div>
+                    <div class="form-container" name="register" id="register" class="form-container">
+                        <h3 class="form-title">Register</h3>
                         <form id="registration-form" class="form">
                             <!--Select either professional or normal user-->
                             <label for="registration-type">registration-type:</label>
                             <select id="registration-type">
+                                <option value="type" disabled>Registration type</option>
                                 <option value="user">user</option>
                                 <option value="professional">professional</option>
                             </select>
@@ -81,7 +100,7 @@
                             <input type="text" placeholder="LGA" class="registration-form-field" name="lga">
                             <input type="text" placeholder="street and closest bus stop" class="registration-form-field" name="street">
                             <input type="text" placeholder="service (your work)" class="registration-form-field" name="service">
-                            <input type="button" value="Register" onclick="register(this.form)">
+                            <input type="button" class="button primary" value="Register" onclick="register(this.form)">
                         </form>
                     </div>
                 </div>
@@ -90,7 +109,7 @@
 
         <footer> 
             <div nam="source">
-                <div name="github-link">website source code: </div>
+                <div name="github-link">&copy ALX CAPSTONE PROJECT</div>
             </div>
         </footer>
     </body>
