@@ -1,115 +1,60 @@
 <!DOCTYPE html>
-<html LANG="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="author" content="Victory Chibuike">
-        <meta name="description" content="A website where you cn hire all of your professionals and handiwork men">
-        <title>ServiceUp</title>
-        <link rel="stylesheet" href="./static/css/header.css"></link>
-        <link rel="stylesheet" href="./static/css/footer.css"></link>
-        <link rel="stylesheet" href="./static/css/landing.css"></link>
-    </head>
-    <body>
-        <noscript>
-            <p>
-                Either Enable Javascript on your browser or use another browser to view this page. This page relies on javascript to work properly and offer you a seamless user experience.
-            </p>
-        </noscript>
-        <header>
-            <!--Navigation elements (within the entire app)-->
-            <div class="nav-toggle-container">
-                <label class="nav-toggle" for="nav-toggle-input">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </label>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <a href="https://www.victory-chibuike.tech/"><button class="btn">Goto site</button></a>
+
+    <!-- First Screen -->
+    <section class="screen" id="screen1">
+        <div class="text-section">
+            <h1 id="main-header">serviceUp</h1>
+            <h2><span>Hire</span> like a pro!</h2>
+            <p>serviceUp is a website where you can hire professionals in your locality for all sort of craftsmanship and handwork.</p>
+            <div class="features-section">
+                <h3>Features</h3>
+                <ul>
+                    <li>Easy-to-use interface: Just one search and you are linked with the professional</li>
+                    <li>Optimized for tight time-constraints</li>
+                    <li>Transparency: You get to view the professional profile and see his past work</li>
+                    <li>The highest rated and closest to you will always be assigned to you on every search</li>
+                </ul>
             </div>
-            <input type="checkbox" class="nav-toggle-input" id="nav-toggle-input">
-            <nav>
-                <a href="landing.html">Home</a>
-                <a href="#register">Register</a>
-                <a href="#login">Login</a>
-                <a href="about.html">About</a>
-                <a href="page_not_found.html" class="logout">Logout</a>
-            </nav>
-        </header>
-        <div class="overlay"></div>
-        <div id="first-screen">
-            <div class="hero">
-                <h1 class="headline">Hire like a pro</h1>
-                    <!--Infor about the app here-->
-                    <section name="information" class="information">
-                        <p name="elevator" class="subheadline">
-                            ServiceUp is a website where you can hire professionals close to you for all sort of services under slim time constraints.
-                        </p>
-                    </section>
-            </div>
-
-            <!--All forms, button etc here-->
-            <section name="actions" class="action">
-                <div name="search-form" id="search" class="form-container">
-                    <form id="search-form" onsubmit="return handleSearch(event)" class="form card">
-                        <label for="search-box">Search</label>
-                        <div class="search-input-container">
-                            <input type="text" id="searchInput" placeholder="eg: Electrician" onkeyup="showSuggestions()" autofocus required>
-                            <button class="button secondary" type="submit">Search</button>
-                        </div>
-                <div id="suggestions"></div>
-                    </form>
-                </div>
-                <div id="results"></div>
-
-
-                <div name="others" class="forms-container card">
-                    <div name="login-container" id="login-container" class="form-container">
-                        <h3 class="form-title">Login</h3>
-                        <form id="login-form" action="/login" method="POST" class="form">
-                            <div class="login-form-field">
-                                <input type="email" placeholder="Email" name="email">
-                            </div>
-                            <div class="login-form-field">
-                                <input type="text" placeholder="Password" name="password">
-                            </div>
-                                <input type="submit" class="button primary" value="Login">
-                        </form>
-                    </div>
-                    <div class="forms-separator">
-                        <div class="line"></div>
-                        <span>OR</span>
-                        <div class="line"></div>
-                    </div>
-                    <div class="form-container" name="register" id="register" class="form-container">
-                        <h3 class="form-title">Register</h3>
-                        <form id="registration-form" class="form">
-                            <!--Select either professional or normal user-->
-                            <label for="registration-type">registration-type:</label>
-                            <select id="registration-type">
-                                <option value="type" disabled>Registration type</option>
-                                <option value="user">user</option>
-                                <option value="professional">professional</option>
-                            </select>
-                            <input type="text" placeholder="Firstname" class="registration-form-field" name="firstname" required>
-                            <input type="text" placeholder="Lastname" class="registration-form-field" name="lastname" required>
-                            <input type="text" placeholder="Username" class="registration-form-field" name="username" required>
-                            <input type="email" placeholder="Email" class="registration-form-field" name="email" required>
-                            <input type="password" placeholder="Password" class="registration-form-field" name="password" required>
-                            <input type="tel" placeholder="Contact" class="registration-form-field" name="contact">
-                            <input type="text" placeholder="State" class="registration-form-field" name="state">
-                            <input type="text" placeholder="Area or City" class="registration-form-field" name="city">
-                            <input type="text" placeholder="LGA" class="registration-form-field" name="lga">
-                            <input type="text" placeholder="street and closest bus stop" class="registration-form-field" name="street">
-                            <input type="text" placeholder="service (your work)" class="registration-form-field" name="service">
-                            <input type="button" class="button primary" value="Register" onclick="register(this.form)">
-                        </form>
-                    </div>
-                </div>
-            </section>
         </div>
-        <footer> 
-            <div nam="source">
-		    <div name="github-link">website source code: <a href="https://github.com/VicTheM/serviceUp">ServiceUp</a></div>
+        <div class="image-section">
+            <img src="landing page.jpeg" alt="Landing Page Image">
+        </div>
+    </section>
+
+    <!-- Second Screen -->
+    <section class="screen" id="screen2">
+        <div class="video-section">
+            <video controls>
+                <source src="about.mp4" type="video/mp4">
+                About the website
+            </video>
+        </div>
+        <div class="text-section" id="text-section-two">
+            <h2>About</h2>
+            <p id="about-paragraph">This site was built as a Capstone project for ALX Software Engineering course. It was inspired by my lack of getting clients consistently (I am an Electrician by profession)
+                and the need to have a platform where I can be easily found by clients. I decided to build a platform where professionals can be easily found by clients.<br>
+                I sat and saw other electrician coe from a very far place to work for people in my area, and I wondered, "How can they bypass me whe I am closer?" so proximity, authenticity
+                and availability are the three factors that determine which professional is assigned to a client.
+            </p>
+            <div class="how-built-section">
+                <h3>How it was built</h3>
+                <p>
+                    Amazingly, it was built in 3 weeks. I used Flask for the backend, and pure HTML, CSS and JS for the frontend.
+                    This current landing page is being hosted on giuthub pages, and the button above that says "Goto site" will take you to the actual site.
+                    The main backend is hosted on an ubuntu machine, and served via gunicorn which gets proxy request from an Nginx web server.
+                </p>
             </div>
-        </footer>
-    </body>
-    <script src="./static/js/landing.js"></script>
+        </div>
+    </section>
+
+</body>
 </html>
