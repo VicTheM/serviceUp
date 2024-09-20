@@ -5,9 +5,9 @@
         <meta name="author" content="Victory Chibuike">
         <meta name="description" content="A website where you cn hire all of your professionals and handiwork men">
         <title>ServiceUp</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}"></link>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}"></link>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}"></link>
+        <link rel="stylesheet" href="../static/css/header.css"></link>
+        <link rel="stylesheet" href="../static/css/landing.css"></link>
+        <link rel="stylesheet" href="../static/css/footer.css"></link>
     </head>
     <body>
         <noscript>
@@ -30,22 +30,21 @@
                 <a href="#register">Register</a>
                 <a href="#login">Login</a>
                 <a href="about.html">About</a>
-                <a href="page_not_found.html" class="logout">Logout</a>
             </nav>
         </header>
         <div class="overlay"></div>
         <div id="first-screen">
             <div class="hero">
-                <h1 class="headline">Hire like a pro</h1>
-                    <!--Infor about the app here-->
+                <h1 class="headline"><span id="distinct">Hire</span> like a pro</h1>
+                    <!--App info-->
                     <section name="information" class="information">
                         <p name="elevator" class="subheadline">
-                            ServiceUp is a website where you can hire professionals close to you for all sort of services under slim time constraints.
+                            ServiceUp is a website where you can hire the best artistsians under heavy time constraints.
                         </p>
                     </section>
             </div>
 
-            <!--All forms, button etc here-->
+            <!--All forms, button etc-->
             <section name="actions" class="action">
 
                 <div name="search-form" id="search" class="form-container">
@@ -109,9 +108,9 @@
 
         <footer> 
             <div nam="source">
-                <div name="github-link">&copy ALX CAPSTONE PROJECT</div>
+                <div name="github-link">&copy ALX CAPSTONE PROJECT 2024</div>
             </div>
         </footer>
     </body>
-    <script src="{{ url_for('static', filename='js/landing.js') }}"></script>
+    <script src="../static/js/landing.js"></script>
 </html>

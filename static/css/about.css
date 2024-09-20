@@ -5,3 +5,31 @@ body {
     display: flex;
     flex-direction: column;
 }
+
+body * {
+    padding: 10px;
+}
+
+h1,
+h2 {
+    line-height: 0;
+    line-clamp: 2;
+}
+
+h2 {
+    font-weight: bolder;
+    color: black;
+}
+
+.Intro,
+.below-intro,
+.profile {
+    display: flex;
+    align-items: center;
+    border: 2px;
+    padding: 20px;
+}
+
+.profile {
+    line-height: 2.5;
+}
