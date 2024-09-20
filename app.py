@@ -26,6 +26,9 @@ from .models.user import Professional
 # from .config.secrets import *
 from .config.development import *
 
+# I want to use strict slashes to avoid duplicate content
+# app.url_map.strict_slashes = True
+
 app = Flask(__name__)
 
 app.secret_key = APP_SECRET_KEY
@@ -60,6 +63,8 @@ def register():
     email = data.get('email')
     password = data.get('password')
     hashed_password = generate_password_hash(password)
+
+    print(f"Data: {data}")
 
     if registration_type == 'professional':
     # Check if email already exists in userCollection or handworkMenCollection
