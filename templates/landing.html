@@ -5,9 +5,9 @@
         <meta name="author" content="Victory Chibuike">
         <meta name="description" content="A website where you cn hire all of your professionals and handiwork men">
         <title>ServiceUp</title>
-        <link rel="stylesheet" href="../static/css/header.css"></link>
-        <link rel="stylesheet" href="../static/css/landing.css"></link>
-        <link rel="stylesheet" href="../static/css/footer.css"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}"></link>
     </head>
     <body>
         <noscript>
@@ -26,7 +26,7 @@
             </div>
             <input type="checkbox" class="nav-toggle-input" id="nav-toggle-input">
             <nav>
-                <a href="landing.html">Home</a>
+                <a href="{{ url_for('landing_page') }}">Home</a>
                 <a href="#register">Register</a>
                 <a href="#login">Login</a>
                 <a href="about.html">About</a>
@@ -107,10 +107,8 @@
         </div>
 
         <footer> 
-            <div nam="source">
-                <div name="github-link">&copy ALX CAPSTONE PROJECT 2024</div>
-            </div>
+            <div name="github-link">&copy ALX CAPSTONE PROJECT 2024</div>
         </footer>
     </body>
-    <script src="../static/js/landing.js"></script>
+    <script src="{{ url_for('static', filename='js/landing.js') }}"></script>
 </html>

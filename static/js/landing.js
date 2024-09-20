@@ -136,7 +136,10 @@ function register(form) {
 
     // Send the data using fetch API
     fetch('/register', {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
     })
     .catch(error => {
         console.error('Error:', error);

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Profile</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/loggedin_footer.css') }}"></link>
+    </head>
+    <body style="background-color: bisque;">
+        <header>
+            <!--Navigation elements (within the entire app)-->
+            <nav>
+                <a href="{{ url_for('landing_page') }}">Home</a>
+                <a href="{{ url_for('landing_page', _anchor='register') }}">Register</a>
+                <a href="{{ url_for('landing_page', _anchor='login') }}">Login</a>
+                <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+                <a href="about.html">About</a>
+                <!-- edit profile replce with an icon-->
+                <a href="#edit_profile">Edit Profile</a>
+            </nav>
+        </header>
+        <div class="container" class="main-frame">
+            <div class="profile-header" class="profile">
+                <h1>{{ user.firstname }} {{ user.lastname }}</h1>
+                <span>Username: {{ user.username }}</span>
+            </div>
+
+            <div class="profile-info" class="profile-info">
+                <p><strong>Email:</strong> {{ user.email }}</p>
+            </div>
+        </div>
+    </body>
+    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+</html>

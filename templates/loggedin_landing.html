@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html LANG="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="author" content="Victory Chibuike">
+        <meta name="description" content="A website where you cn hire all of your professionals and handiwork men">
+        <title>ServiceUp</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css')}}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/loggedin_footer.css')}}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/loggedin_landing.css')}}"></link>
+    </head>
+    <body>
+        <noscript>
+            <p>
+                Either Enable Javascript on your browser or use another browser to view this page. This page relies on javascript to work properly and offer you a seamless user experience.
+            </p>
+        </noscript>
+        <header>
+            <!--Navigation elements (within the entire app)-->
+            <div class="nav-toggle-container">
+                <label class="nav-toggle" for="nav-toggle-input">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </label>
+            </div>
+            <input type="checkbox" class="nav-toggle-input" id="nav-toggle-input">
+            <nav>
+                <a href="{{ url_for('landing_page') }}">Home</a>
+                <a href="{{ url_for('landing_page', _anchor='register') }}">Register</a>
+                <a href="{{ url_for('landing_page', _anchor='login') }}">Login</a>
+                <a href="about.html">About</a>
+                <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+            </nav>
+        </header>
+        <div class="overlay"></div>
+        <div id="first-screen">
+            <div class="hero">
+                <h1 class="headline"><span id="distinct">Hire</span> like a pro</h1>
+                    <!--Infor about the app here-->
+                    <section name="information" class="information">
+                        <p name="elevator" class="subheadline">
+                            ServiceUp is a website where you can hire professionals close to you for all sort of services under slim time constraints.
+                        </p>
+                    </section>
+            </div>
+
+            <!--All forms, button etc here-->
+            <section name="actions" class="action">
+
+                <div name="search-form" id="search" class="form-container">
+                    <form id="search-form" onsubmit="return handleSearch(event)" class="form card">
+                        <label for="search-box">Search</label>
+                        <div class="search-input-container">
+                            <input type="text" id="searchInput" placeholder="eg: Electrician" onkeyup="showSuggestions()" autofocus required>
+                            <button class="button secondary" type="submit">Search</button>
+                        </div>
+                <div id="suggestions"></div>
+                    </form>
+                </div>
+                <div id="results"></div>
+            </section>
+        </div>
+        <footer> 
+            <div name="github-link">&copy ALX CAPSTONE PROJECT 2024</div>
+        </footer>
+    </body>
+    <script src="{{ url_for('static', filename='js/landing.js') }}"></script>
+</html>

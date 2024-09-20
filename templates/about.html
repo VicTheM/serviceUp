@@ -3,9 +3,9 @@
     <meta>
     <head>
         <title>About</title>
-        <link rel="stylesheet" href="../static/css/header.css"></link>
-        <link rel="stylesheet" href="../static/css/about.css"></link>
-        <link rel="stylesheet" href="../static/css/footer.css"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css')}}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css')}}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css')}}"></link>
     </head>
     <body>
         <header>
@@ -36,13 +36,11 @@
             This website was built as my Capstone project at ALX, but beyond the project, it was also built to server the purpose of it's name - provide a means where people can get professionals on the go<br>
             I am an Electrical and Electronics Engineeering student at the prestiguous University of Lago in Nigeria. I build software systems, ranging from those running on bare metals and microcontrollers using C, to those running on your browser using node.js<br>
         </div>
-        <video src="../static/img/about.mp4"
-            width="350" height="260" preload="metadata" controls
-            poster="../static/img/techstack.png" class="video"></video>
+        <video src="{{ url_for('static', filename='img/about.mp4') }}"
+        width="350" height="260" preload="metadata" controls
+        poster="{{ url_for('static', filename='img/techstack.png') }}" class="video"></video>
         <footer> 
-            <div nam="source">
-                <div name="github-link">&copy ALX CAPSTONE PROJECT 2024</div>
-            </div>
+            <div name="github-link">&copy ALX CAPSTONE PROJECT 2024</div>
         </footer>
     </body>
 </html>

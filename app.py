@@ -23,7 +23,7 @@ from bson import json_util
 from typing import Dict, Any
 from .models.user import User
 from .models.user import Professional
-from .config.secrets import *
+# from .config.secrets import *
 from .config.development import *
 
 app = Flask(__name__)
@@ -42,7 +42,7 @@ def landing_page():
     """Loggedin page has premium css style while logged out page has a basic style"""
 
     if "email" in session:
-        return render_template('landing_logged_in.html')
+        return render_template('loggedin_landing.html')
     else:
         return render_template('landing.html')
     
@@ -93,7 +93,7 @@ def register():
 
     # Store username in session
     session['email'] = email
-    return render_template('landing_logged_in.html')
+    return render_template('loggedin_landing.html')
 
 
 @app.route('/login', methods=['POST'])
@@ -132,12 +132,19 @@ def profile():
     if "email" in request.args:
         email = request.args.get('email')
         professional = handworkMenCollection.find_one({"email": email})
-        return render_template('professionalProfile.html', user=professional)
+        if "email" in session:
+            return render_template('loggedin_professionalProfile.html', user=professional)
+        else:
+            return render_template('professionalProfile.html', user=professional)
     else:
         if "email" in session:
             currentUser = session['email']
             user = handworkMenCollection.find_one({"email": currentUser}) or userCollection.find_one({"email": currentUser})
-            return render_template('profile.html', user=user)
+
+            if 'services' in user:
+                return render_template('profile.html', user=user)
+            else:
+                return render_template('userProfile.html', user=user)
         else:
             return redirect(url_for('landing_page'))
 
@@ -273,8 +280,10 @@ def update_password():
 @app.route('/about', methods=['GET'])
 @app.route('/about.html', methods=['GET'])
 def about():
-    return render_template('about.html')
-
+    if "email" in session:
+        return render_template('loggedin_about.html')
+    else:
+        return render_template('about.html')
 
 @app.errorhandler(404)
 def page_not_found_error(error):
@@ -282,4 +291,4 @@ def page_not_found_error(error):
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host='0.0.0.0', port=5000)

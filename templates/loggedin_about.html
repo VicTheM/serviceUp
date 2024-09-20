@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <meta>
+    <head>
+        <title>About</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css')}}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/loggedin_footer.css')}}"></link>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/loggedin_about.css')}}"></link>
+    </head>
+    <body>
+        <header>
+            <!--Navigation elements (within the entire app)-->
+            <nav>
+                <a href="{{ url_for('landing_page') }}">Home</a>
+                <a href="{{ url_for('landing_page', _anchor='register') }}">Register</a>
+                <a href="{{ url_for('landing_page', _anchor='login') }}">Login</a>
+                <a href="{{ url_for('logout') }}" class="logout">Logout</a>
+                <a href="about.html">About</a>            
+            </nav>
+        </header>
+        <h1>About the app</h1>
+        <div class="Intro">
+            ServiceUp is a website where you can hire the best artisians in your locality under heavy time constraints.<br>
+        </div>
+        <h2>Technical Details</h2>
+        <div class="below-intro">
+            This app has a database and api, built with Mongodb and Flask respectively.
+            <a
+            href="https://www.canva.com/design/DAGQcfuRz6g/YYxDRYYZtJvCcGcr8VxcPQ/edit?utm_content=DAGQcfuRz6g&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton"
+            >This Canva presentation</a> will do great good in learning more about the app, it is exhaustive.
+        </div>
+
+        <h2>About the Developer</h2>
+        <div class="profile">
+            I am Nwofia Victory Chibuike, the designer and builder of ServiceUp<br>
+            This website was built as my Capstone project at ALX, but beyond the project, it was also built to server the purpose of it's name - provide a means where people can get professionals on the go<br>
+            I am an Electrical and Electronics Engineeering student at the prestiguous University of Lago in Nigeria. I build software systems, ranging from those running on bare metals and microcontrollers using C, to those running on your browser using node.js<br>
+        </div>
+        <video src="{{ url_for('static', filename='img/about.mp4') }}"
+        width="350" height="260" preload="metadata" controls
+        poster="{{ url_for('static', filename='img/techstack.png') }}" class="video"></video>
+        <footer> 
+            <div name="github-link">&copy ALX CAPSTONE PROJECT 2024</div>
+        </footer>
+    </body>
+</html>
