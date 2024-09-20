@@ -118,7 +118,7 @@ function register(form) {
         return;
     }
 
-    // Prepare the data object in dictionary form
+    // Prepare the form data for URL-encoded format
     const formData = {
         "registration-type": registrationType,
         "firstname": firstName,
@@ -134,19 +134,25 @@ function register(form) {
         "service": service
     };
 
-    // Send the data using fetch API
+    // Send the data using fetch API with 'application/x-www-form-urlencoded'
     fetch('/register', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
+        body: JSON.stringify(formData)
     })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error during registration: ' + error.message);
+    .then(response => response.text()) // Convert the response to text (HTML)
+    .then(html => {
+        // Do something with the HTML, like inserting it into the page
+        document.body.innerHTML = html; // Example: Replace body content with the HTML
+        })
+    .catch((error) => {
+        console.error('Error:', error); // Handle any errors
     });
-    
 }
+
+
 
 async function getProfessionalProfile() {
     try {
@@ -166,5 +172,4 @@ async function getProfessionalProfile() {
     } catch (error) {
       console.error('Error fetching user profile:', error);
     }
-  }
-  
+  };
